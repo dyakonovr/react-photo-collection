@@ -1,16 +1,18 @@
 import { useContext } from 'react';
-import { Categories } from '../../../contexts/Categories';
+import { Context } from '../../../contexts/Context';
 import classes from './CategoriesList.module.css';
 
 const CategoriesList = () => {
   // Принимаю контекст
-  const { categories, currentCategory, setCurrentCategory } = useContext(Categories);
+  const { categories, collections, currentCategory, setCurrentCategory, setCurrentCollections, setSearchedCollections } = useContext(Context);
   // Принимаю контекст END
 
   // Функции
   function changeCurrentCategory(target) {
-    const newCurrentCategoryID = Number(target.dataset.id);
-    setCurrentCategory(newCurrentCategoryID);
+    const newCurrentCategoryID = target.dataset.id;
+    setCurrentCategory(Number(newCurrentCategoryID));
+    setCurrentCollections(collections[String(newCurrentCategoryID)]);
+    setSearchedCollections([]);
   }
   // Функции END
 

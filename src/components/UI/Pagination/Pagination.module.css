@@ -4,6 +4,7 @@
   align-items: center;
   list-style: none;
   padding: 0;
+  grid-column: span 3;
 }
 
 .page {
@@ -18,7 +19,7 @@
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.page_active {
+.page[data-active="true"] {
   background-color: #161616;
   color: #fff;
 }
