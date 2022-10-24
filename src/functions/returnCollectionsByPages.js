@@ -1,4 +1,4 @@
-export function returnCollectionsByPages(array, collectionsOnPage) {
+export function returnCollectionsByPages(array, collectionsOnPage) { // Создаю "страницы" в новом обработанном массиве коллекций
   // Создаю вспомогательный массив
   let collectionsByPage = [];
 

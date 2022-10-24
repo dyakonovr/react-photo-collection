@@ -16,8 +16,12 @@
   transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
 }
 
-.collection[data-focused="false"]{
+.collection[data-focused="false"] {
   opacity: 0.9;
+}
+
+.collection[data-focused="true"]{
+  opacity: 1;
 }
 
 .collection:hover {

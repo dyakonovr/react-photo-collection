@@ -17,6 +17,7 @@ function App() {
   const [currentCollections, setCurrentCollections] = useState([]);
   const [searchedCollections, setSearchedCollections] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [inputValue, setInputValue] = useState('');
   // Все stat'ы END
 
   const collectionsOnPage = 3; // Количество коллекций на одной странице
@@ -39,21 +40,6 @@ function App() {
               [item] // Создаем новый массив с новой коллекцией
           }
           // Обрабатываю и создаю новый объект со всеми коллекциями вида {номер_коллекции: [коллекция_1, коллекция_2...]} END
-
-          // Создаю "страницы" в новом обработанном массиве коллекций
-          for (let key of Object.keys(collectionsArrayNew)) {
-            // Каждую категорию мы обрабатываем и на выходе получаем массив категории со страницами
-            collectionsArrayNew[key] = returnCollectionsByPages(collectionsArrayNew[key], collectionsOnPage);
-          }
-
-          // Итоговый формат данных:
-          // {
-          //   'номер_страницы': [  *массив всех страниц*
-          //     [объекты одной страницы], [объекты одной страницы]
-          //   ]
-          // }
-
-          // Создаю "страницы" в новом обработанном массиве коллекций END
 
           setCategories(result[0].categories);
           setCollections(collectionsArrayNew);
@@ -80,7 +66,8 @@ function App() {
         <>
           <CategoriesContext.Provider value={{
             categories, collections, currentCategory, setCurrentCategory, collectionsOnPage,
-            currentCollections, setCurrentCollections, setSearchedCollections, currentPage, setCurrentPage
+            currentCollections, setCurrentCollections, setSearchedCollections, currentPage, setCurrentPage,
+            inputValue, setInputValue
           }}>
             <Header />
           </CategoriesContext.Provider>

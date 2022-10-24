@@ -2,11 +2,10 @@ import classes from './Collections.module.css';
 import Pagination from '../UI/Pagination/Pagination';
 import { useContext, useRef, useState } from 'react';
 import { CollectionsContext } from '../../contexts/CollectionsContext';
+import { returnCollectionsByPages } from '../../functions/returnCollectionsByPages';
 
-const Collections = ({ searchedCollections, currentCollections }) => {
+const Collections = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
   // console.log('<Collections /> render');
-
-  const [collectionIsHover, setCollectionIsHover] = useState(false);
   const { currentPage } = useContext(CollectionsContext);
 
   const collectionsListRef = useRef(null);
@@ -14,24 +13,21 @@ const Collections = ({ searchedCollections, currentCollections }) => {
   // Для удобства создаю массив с нужными мне коллекциями
   let collectionsArray = searchedCollections.length
     ? // Если в массиве с искомыми коллекциями есть элементы
-    searchedCollections // То возвращаем его
+    returnCollectionsByPages(searchedCollections, collectionsOnPage) // То возвращаем его
     : // Иначе возвращаем массив со всеми текущими коллекциями
-    currentCollections;
+    returnCollectionsByPages(currentCollections, collectionsOnPage);
   // Для удобства создаю массив с нужными мне коллекциями END
-
 
   let pages = collectionsArray.length; // Кол-во страниц в текущей коллекции
 
   // Функции
-  function collectionHoverHandle(e, type) {
-    if (type === 'ENTER') {
-      const focusedCollection = e.currentTarget;
-      focusedCollection.dataset.focused = true;
-      setCollectionIsHover(true);
-    } else {
-      let collectionsChildActive = collectionsListRef.current.querySelector('div[data-focused=true]');
-      collectionsChildActive.dataset.focused = false;
-      setCollectionIsHover(false);
+  function collectionHoverHandle(e, type) { // Обрабатываю фокус на коллекции
+    if (type === 'ENTER') { // Если мы наводим курс
+      const focusedCollection = e.currentTarget; // Находим элемент, на который навелись
+      focusedCollection.dataset.focused = true; // Меняем его data-атрибут (data-focused) на true
+    } else { // Иначе
+      let collectionsChildActive = collectionsListRef.current.querySelector('div[data-focused=true]'); // Находим активный элемент
+      collectionsChildActive.dataset.focused = false; // Меняем его data-атрибут (data-focused) на false
     }
   }
 
