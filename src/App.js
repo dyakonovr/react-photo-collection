@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import Header from './components/Header/Header';
-import { Context } from './contexts/Context';
+import { CategoriesContext } from './contexts/CategoriesContext';
+import { CollectionsContext } from './contexts/CollectionsContext';
 import Collections from './components/Collections/Collections';
 import './styles/App.css';
 import Preloader from './components/Preloader/Preloader';
+import { returnCollectionsByPages } from './functions/returnCollectionsByPages';
 
 function App() {
   // Все stat'ы
@@ -14,6 +16,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCollections, setCurrentCollections] = useState([]);
   const [searchedCollections, setSearchedCollections] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   // Все stat'ы END
 
   const collectionsOnPage = 3; // Количество коллекций на одной странице
@@ -39,34 +42,25 @@ function App() {
 
           // Создаю "страницы" в новом обработанном массиве коллекций
           for (let key of Object.keys(collectionsArrayNew)) {
-            // Если кол-во коллекций конкретной категории, деленных на collectionsOnPage >, чем одна = страниц больше, чем одна
-            if (collectionsArrayNew[key].length / collectionsOnPage > 1) {
-              // Создаю вспомогательный массив
-              let collectionsByPage = [];
-              for (let i = 0; i < collectionsArrayNew[key].length; i++) {
-                // Если коллекция должна быть на след. странице
-                if ((i / collectionsOnPage) === Math.ceil(i / collectionsOnPage)) {
-                  // Создаём новую страницу и добавляем её туда
-                  collectionsByPage.push([collectionsArrayNew[key][i]]);
-                }
-                // Иначе
-                else {
-                  // Добавляем её в массив конкретной страницы
-                  collectionsByPage[collectionsByPage.length - 1].push(collectionsArrayNew[key][i]);
-                }
-              }
-              // Обновляем отсортированный по старницам массив в объекте всех коллекций
-              collectionsArrayNew[key] = collectionsByPage;
-            } else { // Если страница будет только одна
-              collectionsArrayNew[key] = [collectionsArrayNew[key]] // То по дефолту добавляю первую страницу для правильного рендера
-            }
+            // Каждую категорию мы обрабатываем и на выходе получаем массив категории со страницами
+            collectionsArrayNew[key] = returnCollectionsByPages(collectionsArrayNew[key], collectionsOnPage);
           }
+
+          // Итоговый формат данных:
+          // {
+          //   'номер_страницы': [  *массив всех страниц*
+          //     [объекты одной страницы], [объекты одной страницы]
+          //   ]
+          // }
+
           // Создаю "страницы" в новом обработанном массиве коллекций END
 
           setCategories(result[0].categories);
           setCollections(collectionsArrayNew);
           setCurrentCollections(collectionsArrayNew['0']);
           setDataIsLoaded(true);
+
+          console.log('ВСЕ ДАННЫЕ: ', collectionsArrayNew);
         },
         (error) => {
           setDataIsLoaded(true);
@@ -78,17 +72,23 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className='title'>Моя коллекция фотографий</h1>
+      <h1 className='title' onFocus={(e) => {
+        console.log('Focused on input');
+      }}>Моя коллекция фотографий</h1>
       {dataIsLoaded
         ?
         <>
-          <Context.Provider value={{
-            categories, collections, currentCategory, setCurrentCategory,
-            currentCollections, setCurrentCollections, setSearchedCollections
+          <CategoriesContext.Provider value={{
+            categories, collections, currentCategory, setCurrentCategory, collectionsOnPage,
+            currentCollections, setCurrentCollections, setSearchedCollections, currentPage, setCurrentPage
           }}>
             <Header />
-          </Context.Provider>
-          <Collections currentCollections={currentCollections} searchedCollections={searchedCollections} collectionsOnPage={collectionsOnPage} />
+          </CategoriesContext.Provider>
+
+          <CollectionsContext.Provider value={{ currentPage, setCurrentPage }}>
+            <Collections searchedCollections={searchedCollections} currentCollections={currentCollections}
+              collectionsOnPage={collectionsOnPage} />
+          </CollectionsContext.Provider>
         </>
         :
         <Preloader />

@@ -1,10 +1,14 @@
 import { useContext } from 'react';
-import { Context } from '../../../contexts/Context';
+import { CategoriesContext } from '../../../contexts/CategoriesContext';
 import classes from './CategoriesList.module.css';
 
 const CategoriesList = () => {
+  // console.log('<CategoriesList /> render');
+
+
   // Принимаю контекст
-  const { categories, collections, currentCategory, setCurrentCategory, setCurrentCollections, setSearchedCollections } = useContext(Context);
+  const { categories, collections, currentCategory, setCurrentCategory,
+    setCurrentCollections, setSearchedCollections, setCurrentPage } = useContext(CategoriesContext);
   // Принимаю контекст END
 
   // Функции
@@ -13,6 +17,7 @@ const CategoriesList = () => {
     setCurrentCategory(Number(newCurrentCategoryID));
     setCurrentCollections(collections[String(newCurrentCategoryID)]);
     setSearchedCollections([]);
+    setCurrentPage(1);
   }
   // Функции END
 

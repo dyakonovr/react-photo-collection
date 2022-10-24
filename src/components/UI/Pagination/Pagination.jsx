@@ -1,6 +1,12 @@
+import { useContext } from 'react';
 import classes from './Pagination.module.css';
+import { CollectionsContext } from '../../../contexts/CollectionsContext';
 
-const Pagination = ({ pages, currentPage, setCurrentPage }) => {
+const Pagination = ({ pages }) => {
+  // console.log('<Pagination /> render');
+
+  const { currentPage, setCurrentPage } = useContext(CollectionsContext);
+
   // Создаю и заполняю массив страниц
   const pagesList = [];
   for (let i = 0; i < pages; i++) {
@@ -24,7 +30,11 @@ const Pagination = ({ pages, currentPage, setCurrentPage }) => {
   // Функции END
 
   return (
-    <ul className={classes.list} onClick={(e) => { changeCurrentPage(e) }}>
+    <ul className={classes.list} onClick={(e) => {
+      if (e.target.tagName === 'LI') { // Если мы кликнули по кнопке страницы, а не на пустое место
+        changeCurrentPage(e) // Вызываем функцию
+      }
+    }}>
       {pagesList}
     </ul>
   );

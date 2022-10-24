@@ -13,7 +13,11 @@
   grid-template-columns: repeat(3, 80px);
   gap: 20px 10px;
   will-change: transform;
-  transition: transform 0.15s ease-in-out
+  transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+}
+
+.collection[data-focused="false"]{
+  opacity: 0.9;
 }
 
 .collection:hover {
