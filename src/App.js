@@ -60,9 +60,7 @@ function App() {
   } else { // Иначе зарендерить приложение
     return (
       <div className="App">
-        <h1 className='title' onFocus={(e) => {
-          console.log('Focused on input');
-        }}>Моя коллекция фотографий</h1>
+        <h1 className='title'>Моя коллекция фотографий</h1>
         {dataIsLoaded // Если данные получены и установлены в state
           ? // Рендерим <Header />
           <>
