@@ -1,10 +1,11 @@
-import classes from './Collections.module.css';
+import classes from './CollectionsList.module.css';
 import Pagination from '../UI/Pagination/Pagination';
 import { useContext, useRef } from 'react';
 import { CollectionsContext } from '../../contexts/CollectionsContext';
 import { returnCollectionsByPages } from '../../functions/returnCollectionsByPages';
+import { Link } from 'react-router-dom';
 
-const Collections = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
+const CollectionsList = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
   // console.log('<Collections /> render');
   const { currentPage } = useContext(CollectionsContext);
 
@@ -33,22 +34,24 @@ const Collections = ({ searchedCollections, currentCollections, collectionsOnPag
 
   function createCollectionsArray(array) { // Создаю массив с коллекциями
     return array.map((el, index) => {
-      return <div className={classes.collection} key={index} onMouseEnter={(e) => collectionHoverHandle(e, 'ENTER')}
-        onMouseLeave={() => collectionHoverHandle('LEAVE')} data-focused={false}>
-        <div className={classes.photo}>
-          <img src={el.photos[0]} alt="Фото 1" />
+      return (<Link to='/collection' key={index}>
+        <div className={classes.collection} onMouseEnter={(e) => collectionHoverHandle(e, 'ENTER')}
+          onMouseLeave={() => collectionHoverHandle('LEAVE')} data-focused={false}>
+          <div className={classes.photo}>
+            <img src={el.photos[0]} alt="Фото 1" />
+          </div>
+          <div className={classes.photo}>
+            <img src={el.photos[1]} alt="Фото 2" />
+          </div>
+          <div className={classes.photo}>
+            <img src={el.photos[2]} alt="Фото 3" />
+          </div>
+          <div className={classes.photo}>
+            <img src={el.photos[3]} alt="Фото 4" />
+          </div>
+          <strong className={classes.title}>{el.name}</strong>
         </div>
-        <div className={classes.photo}>
-          <img src={el.photos[1]} alt="Фото 2" />
-        </div>
-        <div className={classes.photo}>
-          <img src={el.photos[2]} alt="Фото 3" />
-        </div>
-        <div className={classes.photo}>
-          <img src={el.photos[3]} alt="Фото 4" />
-        </div>
-        <strong className={classes.title}>{el.name}</strong>
-      </div>
+      </Link>);
     });
   }
   // Функции END
@@ -69,4 +72,4 @@ const Collections = ({ searchedCollections, currentCollections, collectionsOnPag
   );
 };
 
-export default Collections;
+export default CollectionsList;
