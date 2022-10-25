@@ -1,6 +1,6 @@
 import classes from './Collections.module.css';
 import Pagination from '../UI/Pagination/Pagination';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
 import { CollectionsContext } from '../../contexts/CollectionsContext';
 import { returnCollectionsByPages } from '../../functions/returnCollectionsByPages';
 

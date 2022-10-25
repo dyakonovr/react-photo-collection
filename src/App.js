@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import Header from './components/Header/Header';
 import { CategoriesContext } from './contexts/CategoriesContext';
 import { CollectionsContext } from './contexts/CollectionsContext';
+import Preloader from './components/Preloader/Preloader';
+import Header from './components/Header/Header';
 import Collections from './components/Collections/Collections';
 import './styles/App.css';
-import Preloader from './components/Preloader/Preloader';
-import { returnCollectionsByPages } from './functions/returnCollectionsByPages';
 
 function App() {
   // Все stat'ы
@@ -56,32 +55,36 @@ function App() {
   }, [url]);
   // Получаю все фотографии в виде .JSON
 
-  return (
-    <div className="App">
-      <h1 className='title' onFocus={(e) => {
-        console.log('Focused on input');
-      }}>Моя коллекция фотографий</h1>
-      {dataIsLoaded
-        ?
-        <>
-          <CategoriesContext.Provider value={{
-            categories, collections, currentCategory, setCurrentCategory, collectionsOnPage,
-            currentCollections, setCurrentCollections, setSearchedCollections, currentPage, setCurrentPage,
-            inputValue, setInputValue
-          }}>
-            <Header />
-          </CategoriesContext.Provider>
+  if (error) { // Если ошибка
+    return <div style={{ color: 'white' }}>{error}</div> // Показать текст ошибки
+  } else { // Иначе зарендерить приложение
+    return (
+      <div className="App">
+        <h1 className='title' onFocus={(e) => {
+          console.log('Focused on input');
+        }}>Моя коллекция фотографий</h1>
+        {dataIsLoaded // Если данные получены и установлены в state
+          ? // Рендерим <Header />
+          <>
+            <CategoriesContext.Provider value={{
+              categories, collections, currentCategory, setCurrentCategory, collectionsOnPage,
+              currentCollections, setCurrentCollections, setSearchedCollections, currentPage, setCurrentPage,
+              inputValue, setInputValue
+            }}>
+              <Header />
+            </CategoriesContext.Provider>
 
-          <CollectionsContext.Provider value={{ currentPage, setCurrentPage }}>
-            <Collections searchedCollections={searchedCollections} currentCollections={currentCollections}
-              collectionsOnPage={collectionsOnPage} />
-          </CollectionsContext.Provider>
-        </>
-        :
-        <Preloader />
-      }
-    </div>
-  );
+            <CollectionsContext.Provider value={{ currentPage, setCurrentPage }}>
+              <Collections searchedCollections={searchedCollections} currentCollections={currentCollections}
+                collectionsOnPage={collectionsOnPage} />
+            </CollectionsContext.Provider>
+          </>
+          : // Иначе рендерим <Preloader />
+          <Preloader />
+        }
+      </div>
+    );
+  }
 }
 
 export default App;
