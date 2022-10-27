@@ -8,8 +8,9 @@ const Header = ({ currentCollection }) => {
 
   return (
     <div className={classes.header}>
-      <Link to="/" className={classes.link} onClick={() => { setCurrentCategory(currentCollection.category) }}>&larr; Перейти в категорию "{categories[currentCollection.category].name}"</Link>
+      <Link to="/" className={classes.link} onClick={() => { setCurrentCategory(0) }}>&larr; Перейти в категорию "{categories['0'].name}"</Link>
       <strong className={classes.title}>{currentCollection.name}</strong>
+      <Link to="/" className={classes.link} onClick={() => { setCurrentCategory(currentCollection.category) }}>Перейти в категорию "{categories[currentCollection.category].name}" &rarr;</Link>
     </div>
   );
 };

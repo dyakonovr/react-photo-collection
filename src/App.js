@@ -30,7 +30,7 @@ function App() {
           setUnfilteredCollections(result[0].collections);
           setDataIsLoaded(true);
 
-          console.log('НЕОБРАБОТАННЫЕ ДАННЫЕ: ', result[0].collections);
+          // console.log('НЕОБРАБОТАННЫЕ ДАННЫЕ: ', result[0].collections);
         },
         (error) => {
           setDataIsLoaded(true);

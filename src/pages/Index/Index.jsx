@@ -34,7 +34,7 @@ function Index() {
     setFilteredCollections(collectionsArrayNew);
     setCurrentCollections(collectionsArrayNew[String(currentCategory)]); // Текущая коллекция = коллекция текущей категории (по дефолту - "Все")
 
-    console.log('ОБРАБОТАННЫЕ ДАННЫЕ: ', collectionsArrayNew);
+    // console.log('ОБРАБОТАННЫЕ ДАННЫЕ: ', collectionsArrayNew);
   }, [unfilteredCollections, currentCategory]);
   // Получаю все фотографии в виде .JSON END
 
