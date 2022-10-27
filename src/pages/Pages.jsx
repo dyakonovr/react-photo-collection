@@ -10,6 +10,7 @@ const Pages = () => {
         <Route path='/collection' element={<Collection />} />
       </Routes>
     </Router>
+
   );
 };
 

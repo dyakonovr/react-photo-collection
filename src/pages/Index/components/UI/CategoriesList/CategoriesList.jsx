@@ -7,15 +7,16 @@ const CategoriesList = () => {
 
 
   // Принимаю контекст
-  const { categories, collections, currentCategory, setCurrentCategory,
-    setCurrentCollections, setSearchedCollections, setCurrentPage, setInputValue } = useContext(CategoriesContext);
+  const { categories, filteredCollections, currentCategory, setCurrentCategory,
+    setCurrentCollections, setSearchedCollections,
+    setCurrentPage, setInputValue } = useContext(CategoriesContext);
   // Принимаю контекст END
 
   // Функции
   function changeCurrentCategory(target) {
     const newCurrentCategoryID = target.dataset.id;
     setCurrentCategory(Number(newCurrentCategoryID)); // Меняем категорию
-    setCurrentCollections(collections[String(newCurrentCategoryID)]); // Меняем текущие коллекции
+    setCurrentCollections(filteredCollections[String(newCurrentCategoryID)]); // Меняем текущие коллекции
     setSearchedCollections([]); // Сбрасываем массив с искомыми коллекциями
     setCurrentPage(1); // Сбрасываем активную страницу
     setInputValue(''); // Сбрасываем value у <Input />
