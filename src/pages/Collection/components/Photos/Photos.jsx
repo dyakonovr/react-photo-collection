@@ -1,8 +1,9 @@
-import classes from './Photos.module.css';
-import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
 import { useRef, useState } from 'react';
+import classes from './Photos.module.css';
 import Modal from '../Modal/Modal';
+import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
 import { disableScroll } from '../../../../functions/disableScroll';
+import { CSSTransition } from 'react-transition-group';
 
 const Photos = ({ currentCollection }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -27,7 +28,10 @@ const Photos = ({ currentCollection }) => {
       <div className={classes.wrapper} ref={photosListRef}>
         {photosArray}
       </div>
-      {modalIsOpen && <Modal url={currentCollection.photos[currentPhotoID]} setModalIsOpen={setModalIsOpen} />}
+      <CSSTransition in={modalIsOpen} classNames='alert' timeout={300} unmountOnExit>
+        <Modal url={currentCollection.photos[currentPhotoID]} setModalIsOpen={setModalIsOpen} />
+      </CSSTransition>
+
     </>
   );
 };
