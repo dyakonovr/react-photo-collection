@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from 'react';
 import { CollectionsContext } from './contexts/CollectionsContext';
 import { PagesContext } from '../../context/PagesContext';
 import { CategoriesContext } from './contexts/CategoriesContext';
+import { withErrorBoundary } from "react-error-boundary";
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
 import CollectionsList from './components/CollectionsList/CollectionsList';
 import AnimationPage from '../AnimationPage';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 function Index() {
   // Все stat'ы
@@ -65,4 +67,6 @@ function Index() {
 
 }
 
-export default Index;
+export default withErrorBoundary(Index, {
+  fallback: <ErrorPage />
+});

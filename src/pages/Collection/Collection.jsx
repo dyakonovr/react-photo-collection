@@ -3,6 +3,8 @@ import { PagesContext } from "../../context/PagesContext";
 import Header from './components/Header/Header';
 import Photos from "./components/Photos/Photos";
 import AnimationPage from "../AnimationPage";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import { withErrorBoundary } from "react-error-boundary";
 
 const Collection = () => {
   const { currentCollectionID, unfilteredCollections } = useContext(PagesContext);
@@ -17,4 +19,6 @@ const Collection = () => {
   );
 };
 
-export default Collection;
+export default withErrorBoundary(Collection, {
+  fallback: <ErrorPage />
+});

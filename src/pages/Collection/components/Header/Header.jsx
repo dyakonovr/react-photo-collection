@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { PagesContext } from "../../../../context/PagesContext";
 import classes from './Header.module.css';
 
