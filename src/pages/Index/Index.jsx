@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { CategoriesContext } from './contexts/CategoriesContext';
 import { CollectionsContext } from './contexts/CollectionsContext';
+import { PagesContext } from '../../context/PagesContext';
+import { CategoriesContext } from './contexts/CategoriesContext';
 import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
 import CollectionsList from './components/CollectionsList/CollectionsList';
-import { PagesContext } from '../../context/PagesContext';
+import AnimationPage from '../AnimationPage';
 
 function Index() {
   // Все stat'ы
@@ -43,7 +44,7 @@ function Index() {
       <h1 className='title'>Моя коллекция фотографий</h1>
       {dataIsLoaded // Если данные получены и установлены в state
         ? // Рендерим <Header />
-        <>
+        <AnimationPage>
           <CategoriesContext.Provider value={{
             categories, filteredCollections, currentCategory, setCurrentCategory, currentCollections, setCurrentCollections,
             setSearchedCollections, currentPage, setCurrentPage, inputValue, setInputValue
@@ -55,7 +56,7 @@ function Index() {
             <CollectionsList searchedCollections={searchedCollections} currentCollections={currentCollections}
               collectionsOnPage={collectionsOnPage} />
           </CollectionsContext.Provider>
-        </>
+        </AnimationPage>
         : // Иначе рендерим <Preloader />
         <Preloader />
       }
