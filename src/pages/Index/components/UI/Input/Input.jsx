@@ -6,7 +6,7 @@ const Input = () => {
   // console.log('<Input /> render');
 
 
-  const { currentCollections, setSearchedCollections, setCurrentPage, inputValue, setInputValue } = useContext(CategoriesContext);
+  const { currentCollections, setSearchedCollections, inputValue, setInputValue } = useContext(CategoriesContext);
 
   function searchCollection(input) {
     const value = input.value;
@@ -23,7 +23,6 @@ const Input = () => {
     }
 
     setInputValue(value);
-    setCurrentPage(1); // Сбрасываю активную страницу в любом случае
     setSearchedCollections(matches);
   }
 

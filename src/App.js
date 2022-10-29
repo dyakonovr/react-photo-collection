@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Pages from './pages/Pages';
+import Preloader from './pages/Index/components/Preloader/Preloader';
 import { PagesContext } from './context/PagesContext';
 import './styles/App.css';
 
@@ -8,8 +9,6 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
-  const [currentCollectionID, setCurrentCollectionID] = useState(null);
-  const [currentCategory, setCurrentCategory] = useState(0);
 
   const collectionsOnPage = 3; // Количество коллекций на одной странице
   const url = 'https://6341ca7920f1f9d79979deb0.mockapi.io/photo_collection_react'; // URL со всеми данными
@@ -40,20 +39,18 @@ function App() {
   }, [url]);
   // Получаю все фотографии в виде .JSON END
 
-  if (error) {
-    return <div style={{ color: 'white' }}>{error}</div>
-  } else {
+  if (error) { // Если получили ошибку
+    return <div style={{ color: 'white' }}>{error}</div> // Выводим её
+  } else if (dataIsLoaded) { // Если данные загружены
     return (
       <div className='App'>
-        <PagesContext.Provider value={{
-          unfilteredCollections, categories, dataIsLoaded,
-          collectionsOnPage, currentCollectionID, setCurrentCollectionID,
-          currentCategory, setCurrentCategory
-        }}>
+        <PagesContext.Provider value={{ unfilteredCollections, categories, collectionsOnPage }}>
           <Pages />
         </PagesContext.Provider>
       </div>
     );
+  } else { // Иначе рендерим прелоадер
+    return (<Preloader />);
   }
 }
 

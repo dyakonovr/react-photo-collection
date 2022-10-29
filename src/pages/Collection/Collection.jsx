@@ -5,11 +5,14 @@ import Photos from "./components/Photos/Photos";
 import AnimationPage from "../AnimationPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { withErrorBoundary } from "react-error-boundary";
+import { useParams } from 'react-router-dom';
 
 const Collection = () => {
-  const { currentCollectionID, unfilteredCollections } = useContext(PagesContext);
+  const params = useParams(); // Параметры из ссылки на страницу
 
-  const currentCollection = unfilteredCollections[currentCollectionID];
+  const { unfilteredCollections } = useContext(PagesContext);
+
+  const currentCollection = unfilteredCollections[params.id];
 
   return (
     <AnimationPage>

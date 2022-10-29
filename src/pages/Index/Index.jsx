@@ -1,24 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
-import { CollectionsContext } from './contexts/CollectionsContext';
 import { PagesContext } from '../../context/PagesContext';
 import { CategoriesContext } from './contexts/CategoriesContext';
 import { withErrorBoundary } from "react-error-boundary";
-import Preloader from './components/Preloader/Preloader';
 import Header from './components/Header/Header';
 import CollectionsList from './components/CollectionsList/CollectionsList';
 import AnimationPage from '../AnimationPage';
 import ErrorPage from '../ErrorPage/ErrorPage';
+import { useParams } from 'react-router-dom';
 
 function Index() {
   // Все stat'ы
   const [filteredCollections, setFilteredCollections] = useState([]);
   const [currentCollections, setCurrentCollections] = useState([]);
   const [searchedCollections, setSearchedCollections] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [inputValue, setInputValue] = useState('');
   // Все stat'ы END
 
-  const { categories, unfilteredCollections, collectionsOnPage, dataIsLoaded, currentCategory, setCurrentCategory } = useContext(PagesContext);
+  const params = useParams();
+
+  const { categories, unfilteredCollections, collectionsOnPage } = useContext(PagesContext);
 
   // Получаю все фотографии в виде .JSON
   useEffect(() => {
@@ -34,35 +34,29 @@ function Index() {
     }
     // Обрабатываю и создаю новый объект со всеми коллекциями вида {номер_коллекции: [коллекция_1, коллекция_2...]} END
 
+    console.log('наши параметры', params);
+    console.log('нефильтрованные данные', unfilteredCollections);
+    console.log('фильтрованные данные', collectionsArrayNew);
+
     setFilteredCollections(collectionsArrayNew);
-    setCurrentCollections(collectionsArrayNew[String(currentCategory)]); // Текущая коллекция = коллекция текущей категории (по дефолту - "Все")
+    setCurrentCollections(collectionsArrayNew[params.category_id]); // Текущая коллекция = коллекция текущей категории (по дефолту - "Все")
 
     // console.log('ОБРАБОТАННЫЕ ДАННЫЕ: ', collectionsArrayNew);
-  }, [unfilteredCollections, currentCategory]);
+  }, [unfilteredCollections, params]);
   // Получаю все фотографии в виде .JSON END
 
   return (
-    <>
+    <AnimationPage>
       <h1 className='title'>Моя коллекция фотографий</h1>
-      {dataIsLoaded // Если данные получены и установлены в state
-        ? // Рендерим <Header />
-        <AnimationPage>
-          <CategoriesContext.Provider value={{
-            categories, filteredCollections, currentCategory, setCurrentCategory, currentCollections, setCurrentCollections,
-            setSearchedCollections, currentPage, setCurrentPage, inputValue, setInputValue
-          }}>
-            <Header />
-          </CategoriesContext.Provider>
-
-          <CollectionsContext.Provider value={{ currentPage, setCurrentPage }}>
-            <CollectionsList searchedCollections={searchedCollections} currentCollections={currentCollections}
-              collectionsOnPage={collectionsOnPage} />
-          </CollectionsContext.Provider>
-        </AnimationPage>
-        : // Иначе рендерим <Preloader />
-        <Preloader />
-      }
-    </>
+      <CategoriesContext.Provider value={{
+        categories, filteredCollections, currentCollections, setCurrentCollections,
+        setSearchedCollections, inputValue, setInputValue
+      }}>
+        <Header />
+      </CategoriesContext.Provider>
+      <CollectionsList searchedCollections={searchedCollections} currentCollections={currentCollections}
+        collectionsOnPage={collectionsOnPage} />
+    </AnimationPage>
   );
 
 }

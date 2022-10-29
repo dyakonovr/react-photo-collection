@@ -1,19 +1,18 @@
-import { useContext } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import classes from './Pagination.module.css';
-import { CollectionsContext } from '../../../contexts/CollectionsContext';
 
 const Pagination = ({ pages }) => {
   // console.log('<Pagination /> render');
 
-  const { currentPage, setCurrentPage } = useContext(CollectionsContext);
+  const params = useParams();
 
   // Создаю и заполняю массив страниц
   const pagesList = [];
   for (let i = 0; i < pages; i++) {
-    if (i + 1 === currentPage) { // Если это первая страница, то она по дефолту активная
-      pagesList.push(<li className={classes.page} data-active={true} data-value={i + 1} key={i}>{i + 1}</li>)
+    if (i + 1 === Number(params.page)) { // Если это первая страница, то она по дефолту активная
+      pagesList.push(<Link to={`/collections/${params.category_id}/${i + 1}`} className={classes.page} data-active={true} data-value={i + 1} key={i}>{i + 1}</Link>)
     } else {
-      pagesList.push(<li className={classes.page} data-active={false} data-value={i + 1} key={i}>{i + 1}</li>)
+      pagesList.push(<Link to={`/collections/${params.category_id}/${i + 1}`} className={classes.page} data-active={false} data-value={i + 1} key={i}>{i + 1}</Link>)
     }
   }
   // Создаю и заполняю массив страниц END
@@ -25,7 +24,6 @@ const Pagination = ({ pages }) => {
 
     // Меняю значения data-active активной страницы и нужной нам местами
     [activePage.dataset.active, target.dataset.active] = [target.dataset.active, activePage.dataset.active];
-    setCurrentPage(target.dataset.value);
   }
   // Функции END
 

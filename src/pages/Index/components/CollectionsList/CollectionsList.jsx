@@ -1,16 +1,14 @@
 import classes from './CollectionsList.module.css';
 import Pagination from '../UI/Pagination/Pagination';
-import { useContext, useRef } from 'react';
-import { CollectionsContext } from '../../contexts/CollectionsContext';
+import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { returnCollectionsByPages } from '../../functions/returnCollectionsByPages';
 import { Link } from 'react-router-dom';
-import { PagesContext } from '../../../../context/PagesContext';
 import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
 
 const CollectionsList = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
   // console.log('<Collections /> render');
-  const { currentPage } = useContext(CollectionsContext);
-  const { setCurrentCollectionID } = useContext(PagesContext);
+  const params = useParams();
 
   const collectionsListRef = useRef(null);
 
@@ -28,8 +26,9 @@ const CollectionsList = ({ searchedCollections, currentCollections, collectionsO
   function createCollectionsArray(array) { // Создаю массив с коллекциями
     return array.map((el, index) => {
       return (
-        <Link to='/collection' key={index} onClick={(e) => setCurrentCollectionID(e.currentTarget.dataset.id)} className={[classes.collection, 'custom-hover'].join(' ')}
-          onMouseEnter={(e) => elementHoverHandle(e, 'ENTER')} data-id={el.id}
+        <Link to={`/collection/${el.id}`} key={index}
+          className={[classes.collection, 'custom-hover'].join(' ')}
+          onMouseEnter={(e) => elementHoverHandle(e, 'ENTER')}
           onMouseLeave={(e) => elementHoverHandle(e, 'LEAVE', collectionsListRef.current)} data-focused={false}>
           <div className={classes.photo}>
             <img src={el.photos[0]} alt="Фото 1" />
@@ -53,7 +52,7 @@ const CollectionsList = ({ searchedCollections, currentCollections, collectionsO
   return (
     <>
       <div className={classes.collections} ref={collectionsListRef}>
-        {createCollectionsArray(collectionsArray[currentPage - 1])}
+        {createCollectionsArray(collectionsArray[Number(params.page) - 1])}
       </div>
       {
         pages > 1 // Если страниц больше, чем одна

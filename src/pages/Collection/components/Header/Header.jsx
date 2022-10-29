@@ -4,13 +4,13 @@ import { PagesContext } from "../../../../context/PagesContext";
 import classes from './Header.module.css';
 
 const Header = ({ currentCollection }) => {
-  const { categories, setCurrentCategory } = useContext(PagesContext);
+  const { categories } = useContext(PagesContext);
 
   return (
     <div className={classes.header}>
-      <Link to="/" className={classes.link} onClick={() => { setCurrentCategory(0) }}>&larr; Перейти в категорию "{categories['0'].name}"</Link>
+      <Link to='/collections/0/1' className={classes.link}>&larr;&nbsp;Перейти в категорию "{categories['0'].name}"</Link>
       <strong className={classes.title}>{currentCollection.name}</strong>
-      <Link to="/" className={classes.link} onClick={() => { setCurrentCategory(currentCollection.category) }}>Перейти в категорию "{categories[currentCollection.category].name}" &rarr;</Link>
+      <Link to={`/collections/${currentCollection.category}/1`} className={classes.link}>Перейти в категорию "{categories[currentCollection.category].name}"&nbsp;&rarr;</Link>
     </div>
   );
 };
