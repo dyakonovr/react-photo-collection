@@ -1,11 +1,16 @@
+// Реакт-хуки
 import { useContext } from "react";
+import { useParams } from 'react-router-dom';
+// Контексты
 import { PagesContext } from "../../context/PagesContext";
+import { CollectionContext } from './context/CollectionContext';
+// Компоненты
 import Header from './components/Header/Header';
 import Photos from "./components/Photos/Photos";
 import AnimationPage from "../AnimationPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
+// Кастомные функции
 import { withErrorBoundary } from "react-error-boundary";
-import { useParams } from 'react-router-dom';
 
 const Collection = () => {
   const params = useParams(); // Параметры из ссылки на страницу
@@ -16,8 +21,10 @@ const Collection = () => {
 
   return (
     <AnimationPage>
-      <Header currentCollection={currentCollection} />
-      <Photos currentCollection={currentCollection} />
+      <CollectionContext.Provider value={{ currentCollection }}>
+        <Header />
+        <Photos />
+      </CollectionContext.Provider>
     </AnimationPage>
   );
 };

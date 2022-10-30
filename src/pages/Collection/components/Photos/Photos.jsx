@@ -1,22 +1,31 @@
-import { useRef, useState } from 'react';
+// Реакт-хуки
+import { useRef, useState, useContext } from 'react';
+// Контексты
+import { CollectionContext } from '../../context/CollectionContext';
+// Классы
 import classes from './Photos.module.css';
+// Компоненты
 import Modal from '../Modal/Modal';
+// Кастомные компоненты
+import { CSSTransition } from 'react-transition-group';
+// Функции
 import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
 import { disableScroll } from '../../../../functions/disableScroll';
-import { CSSTransition } from 'react-transition-group';
 
-const Photos = ({ currentCollection }) => {
+
+const Photos = () => {
+  const { currentCollection } = useContext(CollectionContext)
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPhotoID, setCurrentPhotoID] = useState();
-
   const photosListRef = useRef(null); // Ссылка на лист с фотографиями
 
   // Создаю массив с фотографиями
   const photosArray = currentCollection.photos.map((el, index) => {
     return (
-      <div className={[classes.photo, 'custom-hover'].join(' ')} key={index} onMouseEnter={(e) => elementHoverHandle(e, 'ENTER')} data-id={index}
+      <div className={[classes.photo, 'custom-hover'].join(' ')} key={index} onMouseEnter={(e) => elementHoverHandle(e, 'ENTER')}
         onMouseLeave={(e) => elementHoverHandle(e, 'LEAVE', photosListRef.current)} data-focused={false}
-        onClick={(e) => { setModalIsOpen(true); setCurrentPhotoID(Number(e.currentTarget.dataset.id)); disableScroll(); }}>
+        onClick={(e) => { setModalIsOpen(true); disableScroll(); setCurrentPhotoID(index) }}>
         <img src={el} alt={`Фото ${index + 1}`} />
       </div>
     )
@@ -29,7 +38,7 @@ const Photos = ({ currentCollection }) => {
         {photosArray}
       </div>
       <CSSTransition in={modalIsOpen} classNames='alert' timeout={300} unmountOnExit>
-        <Modal url={currentCollection.photos[currentPhotoID]} setModalIsOpen={setModalIsOpen} />
+        <Modal setModalIsOpen={setModalIsOpen} currentPhotoID={currentPhotoID} />
       </CSSTransition>
 
     </>
