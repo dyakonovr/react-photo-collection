@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
 
 const CollectionsList = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
+
   // console.log('<Collections /> render');
   const params = useParams();
 

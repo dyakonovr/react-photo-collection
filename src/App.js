@@ -10,7 +10,7 @@ function App() {
   const [error, setError] = useState('');
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
 
-  const collectionsOnPage = 3; // Количество коллекций на одной странице
+  const collectionsOnPage = 2; // Количество коллекций на одной странице
   const url = 'https://6341ca7920f1f9d79979deb0.mockapi.io/photo_collection_react'; // URL со всеми данными
 
   // Получаю все фотографии в виде .JSON

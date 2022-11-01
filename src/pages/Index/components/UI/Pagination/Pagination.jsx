@@ -5,11 +5,12 @@ const Pagination = ({ pages }) => {
   // console.log('<Pagination /> render');
 
   const params = useParams();
+  const currentPage = Number(params.page);
 
   // Создаю и заполняю массив страниц
   const pagesList = [];
   for (let i = 0; i < pages; i++) {
-    if (i + 1 === Number(params.page)) { // Если это первая страница, то она по дефолту активная
+    if (i + 1 === currentPage) { // Если это первая страница, то она по дефолту активная
       pagesList.push(<Link to={`/collections/${params.category_id}/${i + 1}`} className={classes.page} data-active={true} data-value={i + 1} key={i}>{i + 1}</Link>)
     } else {
       pagesList.push(<Link to={`/collections/${params.category_id}/${i + 1}`} className={classes.page} data-active={false} data-value={i + 1} key={i}>{i + 1}</Link>)
