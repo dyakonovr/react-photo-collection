@@ -1,6 +1,6 @@
 // Реакт-хуки
 import { useContext } from "react";
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 // Контексты
 import { PagesContext } from "../../context/PagesContext";
 import { CollectionContext } from './context/CollectionContext';
@@ -13,11 +13,12 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import { withErrorBoundary } from "react-error-boundary";
 
 const Collection = () => {
-  const params = useParams(); // Параметры из ссылки на страницу
+  const [searchParams] = useSearchParams();
+  const id = Number(searchParams.get("id")); // Получил ID текущей коллекции
 
   const { unfilteredCollections } = useContext(PagesContext);
 
-  const currentCollection = unfilteredCollections[params.id];
+  const currentCollection = unfilteredCollections[id];
 
   return (
     <AnimationPage>

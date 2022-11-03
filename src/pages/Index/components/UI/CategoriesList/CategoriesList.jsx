@@ -1,12 +1,9 @@
 import { useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
 import { CategoriesContext } from '../../../contexts/CategoriesContext';
 import classes from './CategoriesList.module.css';
 
 const CategoriesList = () => {
-  // console.log('<CategoriesList /> render');
-
-  const params = useParams();
+  const { currentCategory, setSearchParams } = useContext(CategoriesContext);
 
   // Принимаю контекст
   const { categories, filteredCollections, setCurrentCollections, setSearchedCollections, setInputValue } = useContext(CategoriesContext);
@@ -18,19 +15,20 @@ const CategoriesList = () => {
     setCurrentCollections(filteredCollections[String(newCurrentCategoryID)]); // Меняем текущие коллекции
     setSearchedCollections([]); // Сбрасываем массив с искомыми коллекциями
     setInputValue(''); // Сбрасываем value у <Input />
+    setSearchParams({ category: newCurrentCategoryID, page: 1})
   }
   // Функции END
 
   // Создаю список категорий
   const categoriesList = categories.map((el, index) => {
-    return <Link to={`/collections/${index}/1`}
-      className={index === Number(params.category_id) ? [classes.category, classes.category_active].join(' ') : classes.category}
+    return <div
+      className={index === Number(currentCategory) ? [classes.category, classes.category_active].join(' ') : classes.category}
       key={index}
       data-id={index}
       onClick={(e) => { changeCurrentCategory(e.target) }}
     >
       {el.name}
-    </Link>;
+    </div>;
   });
   // Создаю список категорий END
 

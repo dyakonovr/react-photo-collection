@@ -10,9 +10,9 @@ const Header = () => {
 
   return (
     <div className={classes.header}>
-      <Link to='/collections/0/1' className={classes.link}>&larr;&nbsp;Перейти в категорию "{categories['0'].name}"</Link>
+      <Link to={`/collections/?category=0&page=1`} className={classes.link}>&larr;&nbsp;Перейти в категорию "{categories['0'].name}"</Link>
       <strong className={classes.title}>{currentCollection.name}</strong>
-      <Link to={`/collections/${currentCollection.category}/1`} className={classes.link}>
+      <Link to={`/collections/?category=${currentCollection.category}&page=1`} className={classes.link}>
         Перейти в категорию "{categories[currentCollection.category].name}"&nbsp;&rarr;
       </Link>
     </div>

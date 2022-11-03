@@ -3,15 +3,12 @@ import Index from './Index/Index';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 const Pages = () => {
-
-  // console.log('defaultURL: ', defaultUrl);
-
   return (
     <Router>
       <Routes>
-        <Route path='/collections/:category_id/:page' element={<Index />} />
-        <Route path='/collection/:id' element={<Collection />} />
-        <Route path='*' element={<Navigate to='/collections/0/1' />} />
+        <Route path='/collections/' element={<Index />} />
+        <Route path='/collection/' element={<Collection />} />
+        <Route path='*' element={<Navigate to='/collections/?category=0&page=1' />} />
       </Routes>
     </Router>
 

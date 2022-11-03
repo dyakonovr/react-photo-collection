@@ -1,15 +1,13 @@
 import classes from './CollectionsList.module.css';
 import Pagination from '../UI/Pagination/Pagination';
-import { useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useRef } from 'react';
 import { returnCollectionsByPages } from '../../functions/returnCollectionsByPages';
 import { Link } from 'react-router-dom';
 import { elementHoverHandle } from '../../../../functions/elementHoverHandle';
+import { CollectionContext } from '../../../Collection/context/CollectionContext';
 
 const CollectionsList = ({ searchedCollections, currentCollections, collectionsOnPage }) => {
-
-  // console.log('<Collections /> render');
-  const params = useParams();
+  const { currentPage, currentCategory } = useContext(CollectionContext);
 
   const collectionsListRef = useRef(null);
 
@@ -27,7 +25,7 @@ const CollectionsList = ({ searchedCollections, currentCollections, collectionsO
   function createCollectionsArray(array) { // Создаю массив с коллекциями
     return array.map((el, index) => {
       return (
-        <Link to={`/collection/${el.id}`} key={index}
+        <Link to={`/collection/?id=${el.id}`} key={index}
           className={[classes.collection, 'custom-hover'].join(' ')}
           onMouseEnter={(e) => elementHoverHandle(e, 'ENTER')}
           onMouseLeave={(e) => elementHoverHandle(e, 'LEAVE', collectionsListRef.current)} data-focused={false}>
@@ -53,7 +51,7 @@ const CollectionsList = ({ searchedCollections, currentCollections, collectionsO
   return (
     <>
       <div className={classes.collections} ref={collectionsListRef}>
-        {createCollectionsArray(collectionsArray[Number(params.page) - 1])}
+        {createCollectionsArray(collectionsArray[currentPage - 1])}
       </div>
       {
         pages > 1 // Если страниц больше, чем одна

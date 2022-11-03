@@ -3,10 +3,7 @@ import { CategoriesContext } from '../../../contexts/CategoriesContext';
 import classes from './Input.module.css';
 
 const Input = () => {
-  // console.log('<Input /> render');
-
-
-  const { currentCollections, setSearchedCollections, inputValue, setInputValue } = useContext(CategoriesContext);
+  const { currentCollections, setSearchedCollections, inputValue, setInputValue, currentCategory, setSearchParams } = useContext(CategoriesContext);
 
   function searchCollection(input) {
     const value = input.value;
@@ -24,6 +21,7 @@ const Input = () => {
 
     setInputValue(value);
     setSearchedCollections(matches);
+    setSearchParams({ category: currentCategory, page: 1 }); // Сбрасываю текущую страницу
   }
 
   return (

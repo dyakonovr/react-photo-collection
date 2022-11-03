@@ -10,7 +10,7 @@ function App() {
   const [error, setError] = useState('');
   const [dataIsLoaded, setDataIsLoaded] = useState(false);
 
-  const collectionsOnPage = 2; // Количество коллекций на одной странице
+  const collectionsOnPage = 3; // Количество коллекций на одной странице
   const url = 'https://6341ca7920f1f9d79979deb0.mockapi.io/photo_collection_react'; // URL со всеми данными
 
   // Получаю все фотографии в виде .JSON
@@ -28,8 +28,6 @@ function App() {
           setCategories(result[0].categories);
           setUnfilteredCollections(result[0].collections);
           setDataIsLoaded(true);
-
-          // console.log('НЕОБРАБОТАННЫЕ ДАННЫЕ: ', result[0].collections);
         },
         (error) => {
           setDataIsLoaded(true);
@@ -38,7 +36,6 @@ function App() {
       )
   }, [url]);
   // Получаю все фотографии в виде .JSON END
-
   if (error) { // Если получили ошибку
     return <div style={{ color: 'white' }}>{error}</div> // Выводим её
   } else if (dataIsLoaded) { // Если данные загружены
