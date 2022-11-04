@@ -15,7 +15,7 @@ const CategoriesList = () => {
     setCurrentCollections(filteredCollections[String(newCurrentCategoryID)]); // Меняем текущие коллекции
     setSearchedCollections([]); // Сбрасываем массив с искомыми коллекциями
     setInputValue(''); // Сбрасываем value у <Input />
-    setSearchParams({ category: newCurrentCategoryID, page: 1})
+    setSearchParams({ category: newCurrentCategoryID, page: 1 });
   }
   // Функции END
 
